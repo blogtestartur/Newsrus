@@ -2,77 +2,135 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Новости с Lenta.ru</title>
+    <title>Актуальные новости | Новости с других сайтов</title>
+    <meta name="description" content="Читайте свежие и актуальные новости с популярных русскоязычных сайтов. Обновляется автоматически.">
+    <meta name="keywords" content="новости, лента новостей, Россия, мир, политика, технологии, спорт">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Твой Сайт">
+    <link rel="icon" href="favicon.ico">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            padding: 30px;
+        :root {
+            --bg: #f9f9f9;
+            --text: #333;
+            --accent: #2a7ae2;
+            --card-bg: #fff;
         }
 
-        h1 {
-            color: #333;
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            padding: 20px;
+        }
+
+        header {
             text-align: center;
             margin-bottom: 40px;
         }
 
+        header h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        #news {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
         .news-item {
-            background-color: #fff;
+            background: var(--card-bg);
             padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .news-item:hover {
+            transform: translateY(-4px);
         }
 
         .news-item h2 {
-            margin: 0 0 10px;
-            font-size: 1.4em;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
         }
 
-        .news-item p {
-            margin: 0 0 10px;
-            color: #555;
+        .news-item h2 a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .news-item h2 a:hover {
+            text-decoration: underline;
         }
 
         .news-item time {
-            font-size: 0.9em;
-            color: #888;
+            display: block;
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 10px;
         }
 
-        a {
-            text-decoration: none;
-            color: #2a7ae2;
+        .news-item p {
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
-        a:hover {
-            text-decoration: underline;
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-<h1>Новости с Lenta.ru</h1>
-<div id="news"></div>
+<header>
+    <h1>Актуальные новости с Lenta.ru</h1>
+    <p>Последние обновления из доверенного источника</p>
+</header>
+
+<main id="news" aria-label="Список новостей">
+    <!-- Новости будут загружены сюда -->
+</main>
+
+<footer>
+    &copy; 2025 | Новости с других источников. Все права принадлежат авторам оригинальных публикаций.
+</footer>
 
 <script>
     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://lenta.ru/rss')
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('news');
-            data.items.slice(0, 7).forEach(item => {
-                const newsItem = document.createElement('div');
+            data.items.slice(0, 10).forEach(item => {
+                const newsItem = document.createElement('article');
                 newsItem.className = 'news-item';
                 newsItem.innerHTML = `
-                    <h2><a href="${item.link}" target="_blank">${item.title}</a></h2>
-                    <time>${new Date(item.pubDate).toLocaleString()}</time>
+                    <h2><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a></h2>
+                    <time datetime="${item.pubDate}">${new Date(item.pubDate).toLocaleString()}</time>
                     <p>${item.description}</p>
                 `;
                 container.appendChild(newsItem);
             });
         })
         .catch(error => {
-            console.error('Ошибка при загрузке новостей:', error);
             document.getElementById('news').innerText = 'Не удалось загрузить новости.';
+            console.error('Ошибка загрузки:', error);
         });
 </script>
 
