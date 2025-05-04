@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Новости</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="news-container">
+  <h2>Последние новости</h2>
+  <div id="news"></div>
+</div>
+
+<script>
+// Загрузка новостей из RSS другого сайта
+Async function loadRSS() {
+  Const CORS_PROXY = "https://api.allorigins.win/get?url="; // для обхода CORS
+  Const RSS_URL = encodeURIComponent('https://example.com/rss.xml'); //  сюда RSS чужого сайта
+  
+  Try {
+    Const response = await fetch(`${CORS_PROXY}${RSS_URL}`);
+    Const data = await response.json();
+    Const parser = new DOMParser();
+    Const xml = parser.parseFromString(data.contents, "text/xml");
+    
+    Const items = xml.querySelectorAll("item");
+    Let html = '';
+
+    Items.forEach((item, index) => {
+      If (index < 5) { // показываем только 5 новостей
+        Const title = item.querySelector("title").textContent;
+        Const link = item.querySelector("link").textContent;
+        Html += `<p><a href="${link}" target="_blank">${title}</a></p>`;
+      }
+    });
+
+    Document.getElementById('news').innerHTML = html;
+  } catch (error) {
+    Document.getElementById('news').innerHTML = "Не удалось загрузить новости.";
+    Console.error(error);
+  }
+}
+
+loadRSS();
+</script>
+<script src="main.js"></script>
+</body>
+</html>
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Новости моего сайта</title>
+    <link>https://your-site.com</link>
+    <description>Самые свежие новости!</description>
+
+    <item>
+      <title>Моя первая новость</title>
+      <link>https://your-site.com/news1</link>
+      <description>Описание моей первой новости.</description>
+      <pubDate>Sun, 27 Apr 2025 12:00:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <title>Моя вторая новость</title>
+      <link>https://your-site.com/news2</link>
+      <description>Описание моей второй новости.</description>
+      <pubDate>Sun, 28 Apr 2025 12:00:00 GMT</pubDate>
+    </item>
+
+  </channel>
+</rss>
+
+
+
+Body {
+  Font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  Background: #f9f9f9;
+  Padding: 20px;
+  Margin: 0;
+}
+
+.news-container {
+  Background: #ffffff;
+  Padding: 20px;
+  Max-width: 600px;
+  Margin: 40px auto;
+  Border-radius: 12px;
+  Box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  Animation: fadeIn 1s ease;
+}
+
+.news-container h2 {
+  Text-align: center;
+  Margin-bottom: 20px;
+  Color: #333333;
+  Font-size: 28px;
+}
+
+#news p {
+  Margin: 10px 0;
+}
+
+#news a {
+  Text-decoration: none;
+  Color: #0077cc;
+  Font-size: 18px;
+  Transition: color 0.3s;
+}
+
+#news a:hover {
+  Color: #005999;
+  Text-decoration: underline;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+  From { opacity: 0; transform: translateY(20px); }
+  To { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+
+<script>
+// Загрузка новостей из RSS другого сайта
+Async function loadRSS() {
+  Const CORS_PROXY = "https://api.allorigins.win/get?url=";
+  Const RSS_URL = encodeURIComponent('https://example.com/rss.xml'); //  ссылка на RSS
+
+  Try {
+    Const response = await fetch(`${CORS_PROXY}${RSS_URL}`);
+    Const data = await response.json();
+    Const parser = new DOMParser();
+    Const xml = parser.parseFromString(data.contents, "text/xml");
+    
+    Const items = xml.querySelectorAll("item");
+    Let html = '';
+
+    Items.forEach((item, index) => {
+      If (index < 5) { // только 5 новостей
+        Const title = item.querySelector("title")?.textContent || "Без названия";
+        Const link = item.querySelector("link")?.textContent || "#";
+        Const pubDate = item.querySelector("pubDate")?.textContent || "";
+        
+        // Можно добавить свою стандартную иконку для каждой новости
+        Const image = "https://cdn-icons-png.flaticon.com/512/21/21601.png"; // или своя картинка
+
+        Html += `
+          <div class="news-item">
+            <img src="${image}" alt="Иконка" class="news-icon">
+            <div class="news-content">
+              <a href="${link}" target="_blank" class="news-title">${title}</a>
+              <div class="news-date">${formatDate(pubDate)}</div>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    Document.getElementById('news').innerHTML = html;
+  } catch (error) {
+    Document.getElementById('news').innerHTML = "Не удалось загрузить новости.";
+    Console.error(error);
+  }  } }
+}
+
+// Функция форматирования даты
+Function formatDate(dateString) {
+  If (!dateString) return «";
+  Const date = new Date(dateString);
+  Return date.toLocaleDateString('ru-RU', {
+    Year: 'numeric',
+    Month: 'long',
+    Day: 'numeric'
+  });
+}
+
+loadRSS();
+</script>
+
+
+
+
+
+.news-item {
+  Display: flex;
+  Align-items: center;
+  Margin-bottom: 15px;
+  Padding: 10px;
+  Border-bottom: 1px solid #eee;
+}
+
+.news-icon {
+  Width: 40px;
+  Height: 40px;
+  Object-fit: cover;
+  Margin-right: 15px;
+}
+
+.news-content {
+  Flex: 1;
+}
+
+.news-title {
+  Text-decoration: none;
+  Color: #0077cc;
+  Font-size: 18px;
+  Font-weight: bold;
+  Display: block;
+  Margin-bottom: 5px;
+}
+
+.news-title:hover {
+  Color: #005999;
+  Text-decoration: underline;
+}
+
+.news-date {
+  Font-size: 14px;
+  Color: #777;
+}
+
+
+
+[иконка]  Название новости
+           27 апреля 2025
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Самые свежие новости, статьи и обновления. Подпишитесь на наш сайт для получения последних новостей.">
+  <meta name="keywords" content="новости, сайт, RSS, новости технологий, последние новости, свежие новости, статьи, блог">
+  <meta name="author" content="Твое имя или имя компании">
+  <meta property="og:title" content="Новости моего сайта">
+  <meta property="og:description" content="Читайте свежие новости и статьи на нашем сайте. Подпишитесь на RSS и будьте в курсе всех событий.">
+  <meta property="og:image" content="https://your-site.com/image.jpg"> <!—картинка для соцсетей 
+  <meta property="og:url" content="https://your-site.com">
+  <meta name="robots" content="index, follow">
+  <title>Новости моего сайта</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://your-site.com/</loc>
+    <lastmod>2025-04-27</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://your-site.com/news1</loc>
+    <lastmod>2025-04-27</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <!—Добавь другие страницы 
+</urlset>
+

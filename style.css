@@ -1,0 +1,45 @@
+Body {
+  Font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  Background: #e4bdbd;
+  Padding: 20px;
+  Margin: 0;
+}
+
+.news-container {
+  Background: #ffffff;
+  Padding: 20px;
+  Max-width: 600px;
+  Margin: 40px auto;
+  Border-radius: 12px;
+  Box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  Animation: fadeIn 1s ease;
+}
+
+.news-container h2 {
+  Text-align: center;
+  Margin-bottom: 20px;
+  Color: #333333;
+  Font-size: 28px;
+}
+
+#news p {
+  Margin: 10px 0;
+}
+
+#news a {
+  Text-decoration: none;
+  Color: #0077cc;
+  Font-size: 18px;
+  Transition: color 0.3s;
+}
+
+#news a:hover {
+  Color: #005999;
+  Text-decoration: underline;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+  From { opacity: 0; transform: translateY(20px); }
+  To { opacity: 1; transform: translateY(0); }
+}
